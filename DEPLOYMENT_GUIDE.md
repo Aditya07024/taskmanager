@@ -1,13 +1,13 @@
 # Deployment Guide for Task Manager
 
-## Deployment on Railway
+## Deployment on render
 
-Railway is an excellent platform for deploying Node.js and React applications. Here's how to deploy the Task Manager:
+render is an excellent platform for deploying Node.js and React applications. Here's how to deploy the Task Manager:
 
 ### Prerequisites
 
 - GitHub account with code pushed
-- Railway account (https://railway.app)
+- render account (https://render.app)
 - MongoDB Atlas account (free tier available)
 
 ### Step 1: Push Code to GitHub
@@ -21,9 +21,9 @@ git remote add origin https://github.com/YOUR_USERNAME/task-manager.git
 git push -u origin main
 ```
 
-### Step 2: Deploy Backend on Railway
+### Step 2: Deploy Backend on render
 
-1. Go to https://railway.app
+1. Go to https://render.app
 2. Create new project → "Deploy from GitHub"
 3. Select your repository
 4. Select the "backend" folder as the root directory
@@ -36,15 +36,15 @@ git push -u origin main
    - FRONTEND_URL: (your frontend URL)
 6. Deploy
 
-### Alternative: Deploy as a Single Railway Service from Repo Root
+### Alternative: Deploy as a Single render Service from Repo Root
 
-If Railway is building from `/` instead of `/backend`, use the repo root with a root `package.json`.
+If render is building from `/` instead of `/backend`, use the repo root with a root `package.json`.
 
 1. Deploy the repository root
-2. Railway runs the root `postinstall`, `build`, and `start` scripts
+2. render runs the root `postinstall`, `build`, and `start` scripts
 3. The frontend is built from `frontend/`
 4. The backend serves the compiled frontend build in production
-5. Expose the Railway service publicly after deploy
+5. Expose the render service publicly after deploy
 
 Set these variables:
 
@@ -54,16 +54,16 @@ MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/task_manager
 JWT_SECRET=your_strong_random_secret_32_chars_minimum
 JWT_EXPIRE=30d
 JWT_REFRESH_SECRET=your_strong_random_refresh_secret
-FRONTEND_URL=https://your-service.up.railway.app
+FRONTEND_URL=https://your-service.up.render.app
 ```
 
-### Step 3: Deploy Frontend on Railway
+### Step 3: Deploy Frontend on render
 
-1. Create another project in Railway
+1. Create another project in render
 2. Select same repository
 3. Select "frontend" folder as root directory
 4. Set environment variables:
-   - REACT_APP_API_URL: (your backend Railway URL/api/v1)
+   - REACT_APP_API_URL: (your backend render URL/api/v1)
 5. Deploy
 
 ### Step 4: Configure MongoDB Atlas
@@ -76,7 +76,7 @@ FRONTEND_URL=https://your-service.up.railway.app
 
 ### Step 5: Update FRONTEND_URL
 
-1. Get your frontend Railway URL
+1. Get your frontend render URL
 2. Update FRONTEND_URL in backend environment variables
 3. Redeploy backend
 
@@ -162,9 +162,9 @@ docker-compose up
 
 ### Deploy Docker Image to Cloud
 
-1. **Using Railway with Docker:**
+1. **Using render with Docker:**
    - Connect your GitHub repo
-   - Railway will automatically detect and deploy Docker containers
+   - render will automatically detect and deploy Docker containers
 
 2. **Using AWS ECR + ECS:**
    - Push Docker image to AWS ECR
@@ -180,7 +180,7 @@ docker-compose up
 Create `.github/workflows/deploy.yml`:
 
 ```yaml
-name: Deploy to Railway
+name: Deploy to render
 
 on:
   push:
@@ -228,7 +228,7 @@ jobs:
 ```bash
 # Check logs
 heroku logs --tail  # for Heroku
-railway logs        # for Railway
+render logs        # for render
 
 # Verify environment variables
 heroku config      # for Heroku
@@ -255,6 +255,6 @@ heroku config      # for Heroku
 
 For more help, visit:
 
-- Railway: https://docs.railway.app
+- render: https://docs.render.app
 - MongoDB Atlas: https://docs.atlas.mongodb.com
 - React deployment: https://create-react-app.dev/deployment
