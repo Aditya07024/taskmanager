@@ -331,6 +331,7 @@ textarea {
 }
 
 .content-grid {
+  margin-top: 1.5rem;
   grid-template-columns: 0.92fr 1.08fr;
   align-items: start;
 }
