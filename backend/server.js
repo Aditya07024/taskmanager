@@ -2,13 +2,26 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const app = express();
+const frontendBuildPath = path.join(__dirname, "../frontend/build");
+const allowedOrigins = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      if (!origin || !allowedOrigins.length || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("CORS origin not allowed"));
+    },
     credentials: true,
   }),
 );
@@ -35,6 +48,19 @@ app.use("/api/v1/tasks", require("./src/routes/taskRoutes"));
 app.get("/api/v1/health", (req, res) => {
   res.json({ status: "Server is running" });
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(frontendBuildPath));
+
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+      next();
+      return;
+    }
+
+    res.sendFile(path.join(frontendBuildPath, "index.html"));
+  });
+}
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

@@ -36,6 +36,27 @@ git push -u origin main
    - FRONTEND_URL: (your frontend URL)
 6. Deploy
 
+### Alternative: Deploy as a Single Railway Service from Repo Root
+
+If Railway is building from `/` instead of `/backend`, use the repo root with a root `package.json`.
+
+1. Deploy the repository root
+2. Railway runs the root `postinstall`, `build`, and `start` scripts
+3. The frontend is built from `frontend/`
+4. The backend serves the compiled frontend build in production
+5. Expose the Railway service publicly after deploy
+
+Set these variables:
+
+```env
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/task_manager
+JWT_SECRET=your_strong_random_secret_32_chars_minimum
+JWT_EXPIRE=30d
+JWT_REFRESH_SECRET=your_strong_random_refresh_secret
+FRONTEND_URL=https://your-service.up.railway.app
+```
+
 ### Step 3: Deploy Frontend on Railway
 
 1. Create another project in Railway
