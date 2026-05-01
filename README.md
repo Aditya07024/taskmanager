@@ -208,10 +208,10 @@ The application will be available at `http://localhost:3000`
 
 ## Deployment
 
-### Deploy Backend (Railway/Heroku)
+### Deploy Backend (render/Heroku)
 
 1. Push code to GitHub
-2. Connect repository to Railway/Heroku
+2. Connect repository to render/Heroku
 3. Set environment variables
 4. Deploy
 
